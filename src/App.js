@@ -1,25 +1,49 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-
+import { useEffect, useState } from 'react';
 function App() {
+
+  const [canchas, setCanchas] = useState([]);
+
+  const getCanchas = async (url) => {
+    try {
+      const data = await fetch(url);
+      const response = await data.json();
+      console.log(response);
+      setCanchas(response.usuarios);
+      
+    } catch (error) {
+      console.error(error);
+    } 
+  };
+
+
+
+  useEffect(() => {
+    getCanchas('http://localhost:3000/api/users/');
+  }, []);
+
+
+ 
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-         esta es mi nueva pagina
+
+    <div>
+      {canchas.map((usuario) => (
+        <div key={usuario.idusers}>
         
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <div>
+            <h1>{usuario.nombre}</h1>
+          </div>
+        </div>
+      ))}
+       
+</div>
+
+
   );
 }
 
